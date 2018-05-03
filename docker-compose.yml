@@ -1,0 +1,7 @@
+version:  '3.2'
+services:
+  node:
+    image: 	registry.cn-shenzhen.aliyuncs.com/zhaojunlike/api.oeygame.com:v0.2
+    ports:
+      - "80:80"
+    restart: always
