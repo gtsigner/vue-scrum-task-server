@@ -13,7 +13,9 @@ class ProjectsController extends Controller {
         const {ctx} = this;
         let simpleModel = this.ctx.request.query.simple;
         let projects = [];
-        projects = await ctx.model.Projects.find({}).sort({
+        projects = await ctx.model.Projects.find({
+            _creatorId: ctx.user._id
+        }).sort({
             'sort': 1
         }).exec();
         ctx.body = projects;
@@ -25,6 +27,8 @@ class ProjectsController extends Controller {
         let project = await ctx.model.Projects.findOne({
             _id: id
         });
+        //验证用户权限
+
         //获取任务列表
         let taskList = await ctx.model.ProjectTaskList.findOne({
             _projectId: id
@@ -33,6 +37,9 @@ class ProjectsController extends Controller {
             _projectId: id
         }).sort({sort: 1}).exec();
         let taskGroups = await ctx.model.ProjectTaskGroup.find({
+            _projectId: id
+        });
+        let members = await ctx.model.ProjectMember({
             _projectId: id
         });
         ctx.body = {
@@ -50,7 +57,21 @@ class ProjectsController extends Controller {
     async posts() {
         const {ctx} = this;
         const projectId = ctx.params.id;
-        ctx.body = [];
+        let posts = await this.ctx.model.Posts.find({
+            _bindId: projectId,
+            type: 'posts.project'
+        }).sort({}).exec();
+        ctx.body = posts;
+    }
+
+    async activities() {
+        const {ctx} = this;
+        const projectId = ctx.params.id;
+        let activities = await this.ctx.model.Activity.find({
+            _bindId: projectId,
+            type: 'activity.posts.comment'
+        }).sort({}).exec();
+        ctx.body = activities;
     }
 
     async create() {

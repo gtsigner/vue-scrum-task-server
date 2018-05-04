@@ -142,22 +142,22 @@ class OauthController extends Controller {
                     break;
                 case 'REGISTER':
                     try {
-                        ctx.validate({
-                            password: 'password'
-                        }, params);
+                        ctx.validate({password: 'password'}, params);
                     } catch (e) {
-                        console.log(e);
                         throw new Error('密码要求6-24位数字+字母组合');
                     }
+                    if (params.password !== params.repassword) {
+                        throw new Error('两次密码不一致')
+                    }
                     if (!sms) {
-                        throw new Error('请先获取验证码');
+                        //throw new Error('请先获取验证码');
                     }
-                    if (sms.phone !== params.phone) {
-                        throw new Error('与验证手机号码不符');
-                    }
-                    if (sms.code !== params.code) {
-                        throw new Error('验证码验证失败');
-                    }
+                    // if (sms.phone !== params.phone) {
+                    //     //throw new Error('与验证手机号码不符');
+                    // }
+                    // if (sms.code !== params.code) {
+                    //     //throw new Error('验证码验证失败');
+                    // }
                     accessToken = await ctx.service.user.register(params);
                     break;
             }
@@ -167,7 +167,6 @@ class OauthController extends Controller {
             ctx.body = {code: Enums.ApiCodes.SUCCESS, access_token: accessToken};
         } catch (ex) {
             ctx.body = {code: Enums.ApiCodes.FAIL, message: ex.message};
-
             ctx.status = 500;
         }
     }

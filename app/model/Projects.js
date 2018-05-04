@@ -16,6 +16,12 @@ module.exports = app => {
         group: Number,//1:价格属性,2:普通属性
         value: String//默认值
     });
+    const Member = new mongoose.Schema({
+        _id: String,
+        username: String,
+        avatar: String,
+        roles: [Object],
+    });
 
     const ProjectsSchema = new Schema({
         _creatorId: String,
@@ -32,6 +38,7 @@ module.exports = app => {
         startDate: Date,
         finishDate: Date,
         lock: Boolean,
+        members: [Member],//有权限操作的会员
         status: Number,//  1:进行中，2:暂停，3:取消，4:完成
     });
     return mongoose.model('Projects', ProjectsSchema, 'ey_projects');

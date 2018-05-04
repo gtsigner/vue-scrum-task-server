@@ -1,5 +1,5 @@
 const path = require('path');
-const Git = require('node-git-server');
+const Git = require('./node-git-server');
 
 const repos = new Git(path.resolve(__dirname, '../GitResp'), {
     autoCreate: true,

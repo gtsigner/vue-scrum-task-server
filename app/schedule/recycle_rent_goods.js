@@ -14,19 +14,6 @@ class RecycleRentGoods extends Subscription {
     // 回收超过时间未付款的订单
     async subscribe() {
 
-        await this.action();
-    }
-
-    async action() {
-        const {ctx} = this;
-        //查找超时未支付的订单
-        let orders = await ctx.model.Order.find({
-            status: Enums.OrderSteps.taped.status,//被拍下
-        }).lte('dates.recycle', new Date()).exec();
-        orders.forEach(async (order) => {
-            //取消订单
-            await ctx.service.order.cancelBuyerOrder(order._id, order._buyerId);
-        })
     }
 }
 

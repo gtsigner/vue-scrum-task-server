@@ -32,6 +32,10 @@ module.exports = app => {
     router.put('/api/v1/tasks/move/:id', auth, controller.api.tasks.move);
     //分享
     router.resources('posts', '/api/v1/posts', auth, controller.api.posts);
+    router.get('/api/v1/posts/:id/comments', auth, 'api.posts.comments');
+    router.post('/api/v1/posts/:id/comment', auth, 'api.posts.comment');
+    //活动
+    router.resources('activities', '/api/v1/activities', auth, controller.api.activity);
 
 
     router.get('/api/v1/projects/:id/posts', auth, controller.api.projects.posts);

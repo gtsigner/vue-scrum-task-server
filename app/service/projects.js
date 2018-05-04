@@ -12,7 +12,8 @@ class ProjectsService extends Service {
             _creatorId: ctx.user._id,
             creator: {
                 _id: ctx.user._id,
-                nickname: ctx.user.username,
+                username: ctx.user.username,
+                nickname: ctx.user.nickname,
                 avatar: ctx.user.avatar
             },
             title: params.title,
@@ -22,6 +23,12 @@ class ProjectsService extends Service {
             isPublic: false,
             taskTypes: [],
             applications: [],
+            members: [{
+                _id: ctx.user._id,
+                username: ctx.user.username,
+                nickname: ctx.user.nickname,
+                avatar: ctx.user.avatar
+            }],
             tags: [],
             status: 1
         };
