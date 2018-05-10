@@ -100,12 +100,11 @@ class UserController extends Controller {
         const {ctx} = this;
         let params = ctx.request.query;
         let $where = {
-            status: Enums.GoodsStatus.selling.status
+            username: params.keywords
         };
         let users = [];
         users = ctx.model.User.find($where);
-        users.select('_id avatar nickname');
-        users.limit(ctx.pager.limit).skip(ctx.pager.skip);
+        users.select('_id avatar nickname username phone');
         ctx.body = await users.exec();
     }
 

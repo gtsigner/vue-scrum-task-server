@@ -18,6 +18,7 @@ class AuthController extends Controller {
             await app.redis.set(`SOCKET_ID_${user._id}`, socket.id, 'ex', 60 * 1000);//绑定SocketId
             await app.redis.set(`USER_SOCKET_ID_${socket.id}`, JSON.stringify({
                 _id: user._id,
+                username: user.username,
                 nickname: user.nickname,
                 avatar: user.avatar
             }), 'ex', 60 * 1000);

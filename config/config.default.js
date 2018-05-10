@@ -168,6 +168,7 @@ module.exports = appInfo => {
             '.webp',
             '.tif',
             '.psd',
+            '.torrent',
             // text
             '.svg',
             '.js', '.jsx',

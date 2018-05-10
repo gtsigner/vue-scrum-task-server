@@ -24,6 +24,7 @@ module.exports = app => {
     router.resources('taskStage', '/api/v1/taskStage', auth, controller.api.taskStage);
     //更新任务阶段排序
     router.post('/api/v1/taskStage/sort', auth, controller.api.taskStage.sorts);
+    router.post('/api/v1/project/:id/addUser', auth, controller.api.projects.addUser);
 
     //任务列表
     router.resources('taskList', '/api/v1/taskList', auth, controller.api.taskList);
@@ -36,15 +37,30 @@ module.exports = app => {
     router.post('/api/v1/posts/:id/comment', auth, 'api.posts.comment');
     //活动
     router.resources('activities', '/api/v1/activities', auth, controller.api.activity);
+    //Git 仓库
+    router.resources('repository', '/api/v1/repository', auth, controller.api.repository);
 
 
-    router.get('/api/v1/projects/:id/posts', auth, controller.api.projects.posts);
+    //分享
+    router.get('/api/v1/project/:id/posts', auth, controller.api.projects.posts);
+    //成员
+    router.get('/api/v1/project/:id/members', auth, controller.api.projects.members);
+    //文件夹
+    router.get('/api/v1/collections/collections', auth, controller.api.collections.collections);
+    router.get('/api/v1/collection/:id/show', auth, controller.api.collections.show);
+    router.post('/api/v1/collection', auth, controller.api.collections.create);
+    //上传文件
+    router.post('/api/v1/upload/file', auth, controller.api.upload.file);
+
+    router.get('/api/v1/chat/hgm', auth, controller.api.chat.historyGroupMsg);
+    router.get('/api/v1/user/search', auth, controller.api.user.search);
 
 
     //#region   Socket IO
     router.get('/api/v1/chat/list', auth, 'api.chat.list');
 
     io.of('/').route('chat.message', io.controller.chat.message);
+    io.of('/').route('chat.room', io.controller.chat.room);
     io.of('/').route('chat.user', io.controller.chat.user);
     io.of('/').route('auth.login', io.controller.auth.login);
 

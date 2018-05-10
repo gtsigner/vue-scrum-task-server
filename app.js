@@ -1,6 +1,7 @@
 // app.js
 const moment = require('moment');
-const Md5 = require('md5')
+const Md5 = require('md5');
+const Git = require('./git').Git;
 module.exports = app => {
     // 使用 app 对象
     app.sessionStore = {
@@ -33,6 +34,12 @@ module.exports = app => {
     });
     app.md5 = (str, ec = '#!@#$@#') => {
         return Md5(str + ec);
-    }
+    };
+
+    app.Git = Git;
+    Git.listen(7000, () => {
+        console.log("Git server is running 7000")
+    });
+
     app.moment = moment;
 };

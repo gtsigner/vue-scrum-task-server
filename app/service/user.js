@@ -51,6 +51,8 @@ class UserService extends Service {
             phone: phone
         });
         //Do Login
+        let rand = Math.floor(Math.random() * 10) % 9 + 1;
+        let avatar = `/static/images/girls/${rand}.jpg`;
         if (!user) {
             user = new this.model({
                 phone: phone,
@@ -58,7 +60,7 @@ class UserService extends Service {
                 username: phone,
                 nickname: '手机用户-' + phone,
                 from: 'system.register',
-                avatar: '/images/default_avatar.jpg',
+                avatar: avatar,
                 sex: 0,
                 createAt: new Date(),
                 lock: false,

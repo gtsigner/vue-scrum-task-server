@@ -30,7 +30,8 @@ repos.on('error', (err) => {
 });
 repos.on('info', (info) => {
     info.accept();
-})
-repos.listen(port, () => {
-    console.log(`node-git-server running at http://localhost:${port}`)
 });
+// repos.listen(port, () => {
+//     console.log(`node-git-server running at http://localhost:${port}`)
+// });
+exports.Git = repos;

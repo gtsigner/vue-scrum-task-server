@@ -16,6 +16,7 @@ class ProjectsService extends Service {
                 nickname: ctx.user.nickname,
                 avatar: ctx.user.avatar
             },
+            name: params.name,
             title: params.title,
             description: params.description,
             logo: params.logo,
@@ -27,7 +28,9 @@ class ProjectsService extends Service {
                 _id: ctx.user._id,
                 username: ctx.user.username,
                 nickname: ctx.user.nickname,
-                avatar: ctx.user.avatar
+                email: ctx.user.email,
+                avatar: ctx.user.avatar,
+                roles: ['root', 'admin', 'user']
             }],
             tags: [],
             status: 1
@@ -49,6 +52,8 @@ class ProjectsService extends Service {
             //专业模板
             await this.createScrTpl(project);
         }
+        //创建文件夹
+        await this.createCollections(project);
     }
 
     async createScrTpl(project) {
@@ -183,6 +188,59 @@ class ProjectsService extends Service {
             sort: 3
         }];
         return await this.ctx.model.ProjectTaskStage.insertMany($stages);
+    }
+
+    /**
+     * 创建默认文件夹
+     * @returns {Promise<void>}
+     */
+    async createCollections(project) {
+        const {ctx} = this;
+        let defaultCollection = new ctx.model.Collections({
+            _projectId: project._id,
+            _creatorId: ctx.user._id,
+            creator: {
+                _id: ctx.user._id,
+                nickname: ctx.user.nickname,
+                username: ctx.user.username,
+                avatar: ctx.user.avatar
+            },
+            color: 'blue',
+            title: '默认文件夹',
+            type: 'default',
+            createAt: new Date(),
+            fileCount: 0,
+            collectionCount: 4,
+            status: 1
+        });
+        await defaultCollection.save();
+        //然后需要创建4个字文件夹
+        let coll = [
+            {_parentId: defaultCollection._id, title: '视频'},
+            {_parentId: defaultCollection._id, title: '文档'},
+            {_parentId: defaultCollection._id, title: '图片'},
+            {_parentId: defaultCollection._id, title: '资料'},
+        ];
+        coll.forEach((col) => {
+            ctx.model.Collections.create({
+                _projectId: project._id,
+                _creatorId: ctx.user._id,
+                _parentId: defaultCollection._id,
+                creator: {
+                    _id: ctx.user._id,
+                    nickname: ctx.user.nickname,
+                    username: ctx.user.username,
+                    avatar: ctx.user.avatar
+                },
+                color: 'blue',
+                title: col.title,
+                type: 'init',
+                createAt: new Date(),
+                fileCount: 0,
+                collectionCount: 4,
+                status: 1
+            });
+        })
     }
 
 }
