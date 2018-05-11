@@ -1,5 +1,5 @@
 const path = require('path');
-const Git = require('./node-git-server');
+const Git = require('./git-server');
 
 const repos = new Git(path.resolve(__dirname, '../GitResp'), {
     autoCreate: true,
@@ -32,6 +32,6 @@ repos.on('info', (info) => {
     info.accept();
 });
 // repos.listen(port, () => {
-//     console.log(`node-git-server running at http://localhost:${port}`)
+//     console.log(`git-server running at http://localhost:${port}`)
 // });
 exports.Git = repos;
