@@ -5,7 +5,10 @@ const Controller = require('egg').Controller;
 class XXController extends Controller {
     async index() {
         const {ctx} = this;
-        ctx.body = await ctx.model.GitRepository.find();
+        const _projectId = ctx.request.query._projectId;
+        ctx.body = await ctx.model.GitRepository.find({
+            _projectId: _projectId
+        });
     }
 
     /**

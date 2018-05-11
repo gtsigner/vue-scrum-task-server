@@ -40,7 +40,6 @@ module.exports = app => {
     //Git 仓库
     router.resources('repository', '/api/v1/repository', auth, controller.api.repository);
 
-
     //分享
     router.get('/api/v1/project/:id/posts', auth, controller.api.projects.posts);
     //成员
