@@ -8,6 +8,10 @@ class ProjectsService extends Service {
 
     async createProject(params) {
         const {ctx} = this;
+        if (false === /^[a-zA-Z]{4,}$/.test(params.name)) {
+            throw new Error('英文标识错误,标识必须为4-16位全英文字母');
+        }
+
         let project = {
             _creatorId: ctx.user._id,
             creator: {
@@ -100,33 +104,33 @@ class ProjectsService extends Service {
         let groups = [{
             _projectId: project._id,
             _creatorId: project._creatorId,
-            name: 'sprint',
-            title: '迭代',
-            view: {type: 'sprint'},
-            type: 'sprint',
-            description: '',
-            filter: 'sprintStatus = active',
-            sort: 1,
-        }, {
-            _projectId: project._id,
-            _creatorId: project._creatorId,
             name: 'story',
             title: '需求',
-            view: {type: 'story'},
+            view: {type: 'story', routeName: 'project-smarty'},
             type: 'story',
             description: '',
             filter: 'taskType = story',
-            sort: 2
+            sort: 1
         }, {
             _projectId: project._id,
             _creatorId: project._creatorId,
             name: 'bug',
             title: '缺陷',
-            view: {type: 'bug'},
+            view: {type: 'bug', routeName: 'project-smarty'},
             type: 'bug',
             description: '',
             filter: 'taskType = bug',
-            sort: 3
+            sort: 2
+        }, {
+            _projectId: project._id,
+            _creatorId: project._creatorId,
+            name: 'sprint',
+            title: '迭代',
+            view: {type: 'sprint', routeName: 'project-iteration'},
+            type: 'sprint',
+            description: '',
+            filter: 'sprintStatus = active',
+            sort: 3,
         }];
         return await this.ctx.model.ProjectTaskGroup.insertMany(groups);
     }

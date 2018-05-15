@@ -26,7 +26,20 @@ class TaskListController extends Controller {
     }
 
     async update() {
+        const {ctx} = this;
+        const id = ctx.params.id;
 
+        ctx.body = {};
+    }
+
+    async status() {
+        const {ctx} = this;
+        const id = ctx.params.id;
+        let task = ctx.request.body;
+        let res = await ctx.model.ProjectTask.update({
+            _id: id
+        }, {status: task.status});
+        ctx.body = {};
     }
 
     async move() {

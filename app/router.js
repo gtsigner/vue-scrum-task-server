@@ -31,6 +31,7 @@ module.exports = app => {
     //任务
     router.resources('tasks', '/api/v1/tasks', auth, controller.api.tasks);
     router.put('/api/v1/tasks/move/:id', auth, controller.api.tasks.move);
+    router.put('/api/v1/tasks/:id/status', auth, controller.api.tasks.status);
     //分享
     router.resources('posts', '/api/v1/posts', auth, controller.api.posts);
     router.get('/api/v1/posts/:id/comments', auth, 'api.posts.comments');

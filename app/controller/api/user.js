@@ -136,6 +136,11 @@ class UserController extends Controller {
     async followers() {
 
     }
+
+    async update() {
+        const {ctx} = this;
+
+    }
 }
 
 module.exports = UserController;

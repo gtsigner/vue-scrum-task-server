@@ -13,8 +13,7 @@ class UserService extends Service {
     async getUserFromAccessToken(accessToken) {
         const {ctx} = this;
         try {
-            let us = await ctx.app.jwt.verify(accessToken,
-                ctx.app.config.jwt.secret);
+            let us = await ctx.app.jwt.verify(accessToken, ctx.app.config.jwt.secret);
             return await ctx.model.User.findOne({
                 _id: us.userId
             });

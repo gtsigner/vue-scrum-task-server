@@ -173,9 +173,17 @@ class ProjectsController extends Controller {
 
     async create() {
         const {ctx} = this;
-        let params = ctx.request.body;
-        let res = await this.service.projects.createProject(params);
-        ctx.body = res;
+        try {
+            let params = ctx.request.body;
+            let res = await this.service.projects.createProject(params);
+            ctx.body = res;
+        } catch (e) {
+            ctx.body = {
+                code: Enums.ApiCodes.FAIL,
+                message: '项目创建失败,信息填写不完整'
+            };
+            ctx.status = 403;
+        }
     }
 }
 
