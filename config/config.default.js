@@ -168,6 +168,10 @@ module.exports = appInfo => {
             '.webp',
             '.tif',
             '.psd',
+            //word
+            '.docx',
+            '.doc',
+            '.pptx',
             '.torrent',
             // text
             '.svg',

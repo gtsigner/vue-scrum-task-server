@@ -13,6 +13,7 @@ class ProjectsService extends Service {
         }
 
         let project = {
+            _teamId: params._teamId || '',
             _creatorId: ctx.user._id,
             creator: {
                 _id: ctx.user._id,
@@ -42,7 +43,6 @@ class ProjectsService extends Service {
         const ProjectEnd = new this.model(project);
         let res = await ProjectEnd.save();
         await this._afterCreatedProject(ProjectEnd);
-
         return ProjectEnd;
     }
 

@@ -29,6 +29,10 @@ module.exports = app => {
     });
 
     const ProjectsSchema = new Schema({
+        _teamId: {
+            type: String,
+            default: '',
+        },
         _creatorId: String,
         name: {
             type: String,

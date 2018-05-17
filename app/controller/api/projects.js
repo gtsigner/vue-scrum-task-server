@@ -15,8 +15,11 @@ class ProjectsController extends Controller {
         let simpleModel = this.ctx.request.query.simple;
         let projects = [];
         //获取有权限的项目
+        let map = {};
+        map._teamId = ctx.request.query._teamId || '';
         projects = await ctx.model.Projects.find({
             //_creatorId: ctx.user._id
+            ...map,
             members: {
                 $elemMatch: {_id: ctx.user._id}
             }
@@ -148,8 +151,47 @@ class ProjectsController extends Controller {
     }
 
     async update() {
-
+        const {ctx} = this;
+        let id = ctx.params.id;
+        let params = ctx.request.body;
+        await ctx.model.Projects.update({
+            _id: id,
+        }, {name: params.name, title: params.title});
+        let project = await ctx.model.Projects.findOne({_id: id});
+        ctx.body = project;
     }
+
+
+    /**
+     * 统计
+     * @returns {Promise<void>}
+     */
+    async total() {
+        const {ctx} = this;
+        const id = ctx.params.id;
+        let taskNoDone = await ctx.model.ProjectTask.count({
+            _projectId: id,
+            status: 0
+        });
+        let taskDone = await ctx.model.ProjectTask.count({
+            _projectId: id,
+            status: 1
+        });
+        let taskTotal = taskNoDone + taskDone;
+
+
+        ctx.body = [
+            {title: '未完成', count: taskNoDone, rate: taskNoDone / taskTotal * 100, color: '#77C2F8'},
+            {title: '已完成', count: taskDone, rate: taskDone / taskTotal * 100, color: '#9ED979'},
+            {title: '任务总量', count: taskTotal, rate: taskDone / taskTotal * 100, color: '#77C2F8'},
+            {title: '今日到期', count: 0, rate: 0, color: '#ff0a05'},
+            {title: '已逾期', count: 0, rate: 0, color: '#ff5b0f'},
+            {title: '待认领', count: 0, rate: 0, color: '#FFC774'},
+            {title: '按时完成', count: 0, rate: 0, color: '#9ED979'},
+            {title: '逾期完成', count: 0, rate: 0, color: '#ff7e09'},
+        ];
+    }
+
 
     async posts() {
         const {ctx} = this;
@@ -180,7 +222,7 @@ class ProjectsController extends Controller {
         } catch (e) {
             ctx.body = {
                 code: Enums.ApiCodes.FAIL,
-                message: '项目创建失败,信息填写不完整'
+                message: '项目创建失败,信息填写不完整.' + e.message
             };
             ctx.status = 403;
         }

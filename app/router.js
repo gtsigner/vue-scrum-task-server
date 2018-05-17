@@ -18,10 +18,13 @@ module.exports = app => {
     router.resources('projects', '/api/v1/projects', auth, controller.api.projects);
     //查看详情
     router.get('/api/v1/projects/:id/show', auth, controller.api.projects.show);
+    router.get('/api/v1/projects/:id/total', auth, controller.api.projects.total);
     //任务分组
     router.resources('taskGroup', '/api/v1/taskLists', auth, controller.api.taskGroup);
     //任务阶段
     router.resources('taskStage', '/api/v1/taskStage', auth, controller.api.taskStage);
+    router.delete('/api/v1/taskStage/:id', auth, controller.api.taskStage.remove)
+    router.put('/api/v1/taskStage/:id', auth, controller.api.taskStage.update)
     //更新任务阶段排序
     router.post('/api/v1/taskStage/sort', auth, controller.api.taskStage.sorts);
     router.post('/api/v1/project/:id/addUser', auth, controller.api.projects.addUser);
@@ -54,6 +57,9 @@ module.exports = app => {
 
     router.get('/api/v1/chat/hgm', auth, controller.api.chat.historyGroupMsg);
     router.get('/api/v1/user/search', auth, controller.api.user.search);
+    router.get('/api/v1/team/all', auth, controller.api.team.index);
+    router.get('/api/v1/team/search', auth, controller.api.team.index);
+    router.post('/api/v1/team', auth, controller.api.team.create);
 
 
     //#region   Socket IO
