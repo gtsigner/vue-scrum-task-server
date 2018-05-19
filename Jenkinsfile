@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'npm run test'
+                sh 'npm install eslint -g && npm install cross-env -g && npm run test'
             }
         }
         stage('Deploy') {
