@@ -1,18 +1,22 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:9.10-alpine'
+            args '-p 3000:3000'
+        }
+    }
     environment {
        NODE_ENV = 'production'
     }
     stages {
         stage('Build') {
             steps {
-                sh "echo 'build success ...'"
-                sh 'docker build . -t oeyteam-server:v1'
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                sh 'echo 2'
+                sh 'npm install eslint -g && npm install cross-env -g && npm run test'
             }
         }
         stage('Deploy') {

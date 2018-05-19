@@ -1,0 +1,1 @@
+docker stop oeyteam-server && docker rm oeyteam-server
