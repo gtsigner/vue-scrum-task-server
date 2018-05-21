@@ -42,6 +42,17 @@ class TaskListController extends Controller {
         ctx.body = {};
     }
 
+    async group() {
+        const {ctx} = this;
+        const params = ctx.request.query;
+        let $w = {
+            _taskGroupId: params._groupId,
+            _projectId: params._projectId
+        }
+        let tasks = await ctx.model.ProjectTask.find($w);
+        ctx.body = tasks;
+    }
+
     async move() {
         const {ctx} = this;
         const taskId = ctx.params.id;
@@ -74,6 +85,11 @@ class TaskListController extends Controller {
         let task = new this.ctx.model.ProjectTask({
             ...params,
             _creatorId: ctx.user._id,
+            creator: {
+                _id: ctx.user._id,
+                username: ctx.user.username,
+                avatar: ctx.user.avatar
+            }
         });
         let res = await task.save();//保存新任务
         ctx.body = task;

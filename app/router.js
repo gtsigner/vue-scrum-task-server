@@ -15,6 +15,7 @@ module.exports = app => {
 
     router.get('/api/v1/user/me', auth, controller.api.user.me);
     router.post('/api/v1/auth/login', controller.api.oauth.login);
+    router.put('/api/v1/user/:id/update', auth, controller.api.user.update);
     router.resources('projects', '/api/v1/projects', auth, controller.api.projects);
     //查看详情
     router.get('/api/v1/projects/:id/show', auth, controller.api.projects.show);
@@ -33,6 +34,7 @@ module.exports = app => {
     router.resources('taskList', '/api/v1/taskList', auth, controller.api.taskList);
     //任务
     router.resources('tasks', '/api/v1/tasks', auth, controller.api.tasks);
+    router.get('/api/v1/tasks/group', auth, controller.api.tasks.group);
     router.put('/api/v1/tasks/move/:id', auth, controller.api.tasks.move);
     router.put('/api/v1/tasks/:id/status', auth, controller.api.tasks.status);
     //分享

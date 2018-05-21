@@ -181,9 +181,9 @@ class ProjectsController extends Controller {
 
 
         ctx.body = [
-            {title: '未完成', count: taskNoDone, rate: taskNoDone / taskTotal * 100, color: '#77C2F8'},
-            {title: '已完成', count: taskDone, rate: taskDone / taskTotal * 100, color: '#9ED979'},
-            {title: '任务总量', count: taskTotal, rate: taskDone / taskTotal * 100, color: '#77C2F8'},
+            {title: '未完成', count: taskNoDone, rate: taskNoDone / taskTotal * 100 || 0, color: '#77C2F8'},
+            {title: '已完成', count: taskDone, rate: taskDone / taskTotal * 100 || 0, color: '#9ED979'},
+            {title: '任务总量', count: taskTotal, rate: taskDone / taskTotal * 100 || 0, color: '#77C2F8'},
             {title: '今日到期', count: 0, rate: 0, color: '#ff0a05'},
             {title: '已逾期', count: 0, rate: 0, color: '#ff5b0f'},
             {title: '待认领', count: 0, rate: 0, color: '#FFC774'},

@@ -33,8 +33,9 @@ class UserService extends Service {
             phone: user.phone,
         }, ctx.app.config.jwt.secret);
         //授权登陆
-        await this.model.updateOne({_id: user._id}, {authToken: authToken});//
+        let res = await this.model.update({_id: user._id}, {authToken: authToken});//
         //然后返回AccessToken
+        console.log(res);
         return authToken;
     }
 

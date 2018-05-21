@@ -108,16 +108,6 @@ class UserController extends Controller {
         ctx.body = await users.exec();
     }
 
-    async finances() {
-        const {ctx} = this;
-        let financesLogs = await ctx.model.FinanceLogs.find({
-            _userId: ctx.user._id
-        }).sort({
-            date: -1
-        }).limit(ctx.pager.limit).skip(ctx.pager.skip).exec();
-        ctx.body = financesLogs;
-    }
-
     /**
      * 粉丝
      * @returns {Promise<void>}
@@ -139,6 +129,16 @@ class UserController extends Controller {
 
     async update() {
         const {ctx} = this;
+        const id = ctx.params.id;
+        const params = ctx.request.body;
+        let res = await ctx.model.User.update({
+            _id: ctx.user._id
+        }, {
+            ...params
+        });
+        console.log(ctx.user);
+        let user = await ctx.model.User.findOne({_id: ctx.user._id});
+        ctx.body = user;
 
     }
 }
